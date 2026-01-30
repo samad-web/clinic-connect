@@ -12,12 +12,14 @@ import PatientLayout from "./layouts/PatientLayout";
 import PatientDashboard from "./pages/patient/PatientDashboard";
 import PatientAppointments from "./pages/patient/PatientAppointments";
 import BookAppointment from "./pages/patient/BookAppointment";
+import DoctorProfile from "./pages/patient/DoctorProfile";
 import PatientRecords from "./pages/patient/PatientRecords";
 import PatientPharmacy from "./pages/patient/PatientPharmacy";
 import PharmacyCart from "./pages/patient/PharmacyCart";
 import LabBooking from "./pages/patient/LabBooking";
 import PatientProfile from "./pages/patient/PatientProfile";
 import OrderTracking from "./pages/patient/OrderTracking";
+import HealthVault from "./pages/patient/HealthVault";
 import DoctorLayout from "./layouts/DoctorLayout";
 import DoctorDashboard from "./pages/doctor/DoctorDashboard";
 import DoctorPatients from "./pages/doctor/DoctorPatients";
@@ -82,11 +84,13 @@ const App = () => {
                 <Route index element={<PatientDashboard />} />
                 <Route path="appointments" element={<PatientAppointments />} />
                 <Route path="appointments/book" element={<BookAppointment />} />
+                <Route path="doctor/:doctorId" element={<DoctorProfile />} />
                 <Route path="records" element={<PatientRecords />} />
                 <Route path="pharmacy" element={<PatientPharmacy />} />
                 <Route path="pharmacy/cart" element={<PharmacyCart />} />
                 <Route path="lab" element={<LabBooking />} />
                 <Route path="orders" element={<OrderTracking />} />
+                <Route path="health-vault" element={<HealthVault />} />
                 <Route path="profile" element={<PatientProfile />} />
               </Route>
 
