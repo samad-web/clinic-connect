@@ -11,6 +11,7 @@ interface StatCardProps {
   };
   variant?: 'primary' | 'success' | 'warning' | 'info' | 'default';
   className?: string;
+  onClick?: () => void;
 }
 
 const variantStyles = {
@@ -21,15 +22,17 @@ const variantStyles = {
   default: 'bg-card border border-border',
 };
 
-export function StatCard({ title, value, icon, trend, variant = 'default', className }: StatCardProps) {
+export function StatCard({ title, value, icon, trend, variant = 'default', className, onClick }: StatCardProps) {
   const isDefault = variant === 'default';
 
   return (
     <div
+      onClick={onClick}
       className={cn(
         'stat-card',
         variantStyles[variant],
         isDefault && 'text-foreground',
+        onClick && 'cursor-pointer hover:shadow-float active:scale-[0.98] transition-all',
         className
       )}
     >
@@ -50,8 +53,8 @@ export function StatCard({ title, value, icon, trend, variant = 'default', class
           {trend && (
             <p className={cn(
               'mt-1 text-xs font-medium',
-              trend.isPositive 
-                ? isDefault ? 'text-success' : 'text-green-200' 
+              trend.isPositive
+                ? isDefault ? 'text-success' : 'text-blue-100'
                 : isDefault ? 'text-destructive' : 'text-red-200'
             )}>
               {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}% from yesterday

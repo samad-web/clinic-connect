@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageHeader } from '@/components/ui/page-header';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { FileText, FlaskConical, Download, Eye, ChevronRight, Calendar } from 'lucide-react';
+import { useOfflineStorage } from '@/hooks/useOfflineStorage';
 
 // Demo records
 const prescriptions = [
@@ -36,38 +37,57 @@ const labReports = [
     date: '20 Jan 2026',
     testName: 'Complete Blood Count (CBC)',
     status: 'completed' as const,
-    labName: 'MedCare+ Lab',
+    labName: 'Royal Pharmacy Lab',
   },
   {
     id: '2',
     date: '15 Jan 2026',
     testName: 'Thyroid Profile',
     status: 'completed' as const,
-    labName: 'MedCare+ Lab',
+    labName: 'Royal Pharmacy Lab',
   },
   {
     id: '3',
     date: '28 Jan 2026',
     testName: 'Lipid Profile',
     status: 'pending' as const,
-    labName: 'MedCare+ Lab',
+    labName: 'Royal Pharmacy Lab',
   },
 ];
 
 export default function PatientRecords() {
   const [activeTab, setActiveTab] = useState('prescriptions');
+  const [records, setRecords] = useState(labReports);
+  const { getOfflineData } = useOfflineStorage();
+
+  useEffect(() => {
+    const loadRecords = async () => {
+      const offlineReports = await getOfflineData<any>('labTests');
+      if (offlineReports.length > 0) {
+        // Merge offline reports with demo reports, avoidance duplicates by ID
+        const combined = [...offlineReports];
+        labReports.forEach(demo => {
+          if (!combined.find(r => r.id === demo.id)) {
+            combined.push(demo);
+          }
+        });
+        setRecords(combined);
+      }
+    };
+    loadRecords();
+  }, [getOfflineData]);
 
   return (
     <div className="min-h-screen">
       <PageHeader title="Medical Records" />
-      
+
       <div className="p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="w-full grid grid-cols-2 mb-4">
             <TabsTrigger value="prescriptions">Prescriptions</TabsTrigger>
             <TabsTrigger value="lab-reports">Lab Reports</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="prescriptions" className="space-y-3 mt-0">
             {prescriptions.map((rx) => (
               <Card key={rx.id} className="shadow-card">
@@ -84,8 +104,8 @@ export default function PatientRecords() {
                       <p className="text-xs text-muted-foreground mb-2">{rx.doctorName}</p>
                       <div className="flex flex-wrap gap-1">
                         {rx.medicines.slice(0, 2).map((med, i) => (
-                          <span 
-                            key={i} 
+                          <span
+                            key={i}
                             className="px-2 py-0.5 text-xs rounded-full bg-muted text-muted-foreground"
                           >
                             {med}
@@ -116,9 +136,9 @@ export default function PatientRecords() {
               </Card>
             ))}
           </TabsContent>
-          
+
           <TabsContent value="lab-reports" className="space-y-3 mt-0">
-            {labReports.map((report) => (
+            {records.map((report) => (
               <Card key={report.id} className="shadow-card">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
@@ -128,11 +148,10 @@ export default function PatientRecords() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
                         <h3 className="font-medium text-sm">{report.testName}</h3>
-                        <span className={`text-xs px-2 py-0.5 rounded-full ${
-                          report.status === 'completed' 
-                            ? 'bg-success/10 text-success' 
-                            : 'bg-warning/10 text-warning'
-                        }`}>
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${report.status === 'completed'
+                          ? 'bg-success/10 text-success'
+                          : 'bg-warning/10 text-warning'
+                          }`}>
                           {report.status === 'completed' ? 'Ready' : 'Pending'}
                         </span>
                       </div>

@@ -2,17 +2,18 @@ import { useAuth } from '@/contexts/AuthContext';
 import { StatCard } from '@/components/ui/stat-card';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  Users, 
-  Calendar, 
-  Pill, 
+import {
+  Users,
+  Calendar,
+  Pill,
   FlaskConical,
   Building2,
   TrendingUp,
   ChevronRight,
   Bell,
   AlertCircle,
-  IndianRupee
+  IndianRupee,
+  ShieldCheck
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,13 +43,13 @@ export default function AdminDashboard() {
           <div>
             <p className="text-primary-foreground/80 text-sm">Dashboard</p>
             <h1 className="text-xl font-heading font-bold text-primary-foreground">
-              MedCare+ Admin
+              Royal Pharmacy Admin
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               className="text-primary-foreground hover:bg-primary-foreground/10 relative"
             >
               <Bell className="h-5 w-5" />
@@ -56,8 +57,8 @@ export default function AdminDashboard() {
                 3
               </span>
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
               onClick={logout}
               className="text-primary-foreground hover:bg-primary-foreground/10 text-xs"
@@ -130,13 +131,11 @@ export default function AdminDashboard() {
           <h2 className="font-heading font-semibold text-base mb-3">Alerts</h2>
           <div className="space-y-2">
             {alerts.map((alert) => (
-              <Card key={alert.id} className={`shadow-card ${
-                alert.type === 'warning' ? 'border-l-4 border-l-warning' : 'border-l-4 border-l-info'
-              }`}>
+              <Card key={alert.id} className={`shadow-card ${alert.type === 'warning' ? 'border-l-4 border-l-warning' : 'border-l-4 border-l-info'
+                }`}>
                 <CardContent className="p-3 flex items-center gap-3">
-                  <AlertCircle className={`h-4 w-4 shrink-0 ${
-                    alert.type === 'warning' ? 'text-warning' : 'text-info'
-                  }`} />
+                  <AlertCircle className={`h-4 w-4 shrink-0 ${alert.type === 'warning' ? 'text-warning' : 'text-info'
+                    }`} />
                   <p className="text-sm">{alert.message}</p>
                 </CardContent>
               </Card>
@@ -148,24 +147,23 @@ export default function AdminDashboard() {
         <section>
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-heading font-semibold text-base">Branch Performance</h2>
-            <Button variant="ghost" size="sm" className="text-primary text-xs h-8">
+            <Button variant="ghost" size="sm" className="text-primary text-xs h-8" onClick={() => navigate('/admin/branches')}>
               View All <ChevronRight className="h-3 w-3 ml-1" />
             </Button>
           </div>
-          
+
           <div className="space-y-3">
             {branchPerformance.map((branch, index) => (
               <Card key={index} className="shadow-card">
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className={`p-2 rounded-lg ${
-                        branch.type === 'clinic' 
-                          ? 'bg-primary/10' 
-                          : branch.type === 'pharmacy' 
-                            ? 'bg-success/10' 
-                            : 'bg-warning/10'
-                      }`}>
+                      <div className={`p-2 rounded-lg ${branch.type === 'clinic'
+                        ? 'bg-primary/10'
+                        : branch.type === 'pharmacy'
+                          ? 'bg-success/10'
+                          : 'bg-warning/10'
+                        }`}>
                         {branch.type === 'clinic' ? (
                           <Building2 className="h-5 w-5 text-primary" />
                         ) : branch.type === 'pharmacy' ? (
@@ -201,28 +199,28 @@ export default function AdminDashboard() {
         <section>
           <h2 className="font-heading font-semibold text-base mb-3">Quick Actions</h2>
           <div className="grid grid-cols-3 gap-3">
-            <Card className="shadow-card">
+            <Card className="shadow-card cursor-pointer hover:bg-muted/50 transition-all" onClick={() => navigate('/admin/branches')}>
               <CardContent className="p-4 text-center">
                 <div className="p-2 rounded-lg bg-primary/10 mx-auto w-fit mb-2">
-                  <Users className="h-5 w-5 text-primary" />
+                  <Building2 className="h-5 w-5 text-primary" />
                 </div>
-                <p className="text-xs font-medium">Staff</p>
+                <p className="text-xs font-medium">Branches</p>
               </CardContent>
             </Card>
-            <Card className="shadow-card">
+            <Card className="shadow-card cursor-pointer hover:bg-muted/50 transition-all" onClick={() => navigate('/admin/users')}>
               <CardContent className="p-4 text-center">
                 <div className="p-2 rounded-lg bg-success/10 mx-auto w-fit mb-2">
-                  <Pill className="h-5 w-5 text-success" />
+                  <Users className="h-5 w-5 text-success" />
                 </div>
-                <p className="text-xs font-medium">Inventory</p>
+                <p className="text-xs font-medium">Staff List</p>
               </CardContent>
             </Card>
-            <Card className="shadow-card">
+            <Card className="shadow-card cursor-pointer hover:bg-muted/50 transition-colors" onClick={() => navigate('/admin/users')}>
               <CardContent className="p-4 text-center">
                 <div className="p-2 rounded-lg bg-info/10 mx-auto w-fit mb-2">
-                  <TrendingUp className="h-5 w-5 text-info" />
+                  <ShieldCheck className="h-5 w-5 text-info" />
                 </div>
-                <p className="text-xs font-medium">Reports</p>
+                <p className="text-xs font-medium">Authorization</p>
               </CardContent>
             </Card>
           </div>

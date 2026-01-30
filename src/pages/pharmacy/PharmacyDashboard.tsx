@@ -1,11 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { StatCard } from '@/components/ui/stat-card';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { 
-  Package, 
-  FileText, 
+import {
+  Package,
+  FileText,
   AlertTriangle,
   Truck,
   ChevronRight,
@@ -52,6 +53,7 @@ const lowStockItems = [
 
 export default function PharmacyDashboard() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen">
@@ -65,17 +67,27 @@ export default function PharmacyDashboard() {
             </h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              size="sm"
+              onClick={() => navigate('/pharmacy/billing')}
+              className="text-xs h-8"
+            >
+              + New Order
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               className="text-primary-foreground hover:bg-primary-foreground/10"
             >
               <Bell className="h-5 w-5" />
             </Button>
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="sm"
-              onClick={logout}
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
               className="text-primary-foreground hover:bg-primary-foreground/10 text-xs"
             >
               Logout
@@ -104,6 +116,7 @@ export default function PharmacyDashboard() {
             value="8"
             icon={<AlertTriangle className="h-5 w-5" />}
             variant="default"
+            onClick={() => navigate('/pharmacy/inventory')}
           />
           <StatCard
             title="Deliveries"
@@ -124,7 +137,7 @@ export default function PharmacyDashboard() {
               View All <ChevronRight className="h-3 w-3 ml-1" />
             </Button>
           </div>
-          
+
           <div className="space-y-3">
             {pendingOrders.map((order) => (
               <Card key={order.id} className="shadow-card">
@@ -148,11 +161,10 @@ export default function PharmacyDashboard() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between pt-2 border-t border-border">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      order.type === 'delivery' 
-                        ? 'bg-info/10 text-info' 
-                        : 'bg-muted text-muted-foreground'
-                    }`}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${order.type === 'delivery'
+                      ? 'bg-info/10 text-info'
+                      : 'bg-muted text-muted-foreground'
+                      }`}>
                       {order.type === 'delivery' ? '🚚 Delivery' : '🏪 Pickup'}
                     </span>
                     <Button size="sm" className="h-7 text-xs">
@@ -172,11 +184,16 @@ export default function PharmacyDashboard() {
               <AlertTriangle className="h-4 w-4 text-warning" />
               Low Stock Alert
             </h2>
-            <Button variant="ghost" size="sm" className="text-primary text-xs h-8">
-              Reorder <ChevronRight className="h-3 w-3 ml-1" />
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-primary text-xs h-8"
+              onClick={() => navigate('/pharmacy/inventory')}
+            >
+              Manage <ChevronRight className="h-3 w-3 ml-1" />
             </Button>
           </div>
-          
+
           <Card className="shadow-card">
             <CardContent className="p-0 divide-y divide-border">
               {lowStockItems.map((item, index) => (

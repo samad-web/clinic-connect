@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { BottomNav } from '@/components/ui/bottom-nav';
+import { AppSidebar } from '@/components/ui/app-sidebar-custom';
 import { Home, Calendar, FileText, Pill, User } from 'lucide-react';
 
 const patientNavItems = [
@@ -12,9 +13,14 @@ const patientNavItems = [
 
 export default function PatientLayout() {
   return (
-    <div className="min-h-screen bg-background pb-20">
-      <Outlet />
-      <BottomNav items={patientNavItems} />
+    <div className="flex min-h-screen bg-background">
+      <AppSidebar items={patientNavItems} />
+      <div className="flex-1 pb-20 md:pb-0">
+        <Outlet />
+        <div className="md:hidden">
+          <BottomNav items={patientNavItems} />
+        </div>
+      </div>
     </div>
   );
 }

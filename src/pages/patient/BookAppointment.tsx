@@ -5,17 +5,20 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
-import { 
-  Stethoscope, 
-  Video, 
-  MapPin, 
-  Clock, 
-  ChevronRight, 
+import {
+  Stethoscope,
+  Video,
+  MapPin,
+  Clock,
+  ChevronRight,
   Check,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Star,
+  Search
 } from 'lucide-react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { cn } from '@/lib/utils';
+import { FilterSheet, type FilterOptions } from '@/components/common/FilterSheet';
 
 // Demo doctors
 const doctors = [
@@ -58,7 +61,7 @@ const doctors = [
 ];
 
 const timeSlots = [
-  '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', 
+  '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM',
   '11:00 AM', '11:30 AM', '02:00 PM', '02:30 PM',
   '03:00 PM', '03:30 PM', '04:00 PM', '04:30 PM',
 ];
@@ -69,14 +72,44 @@ export default function BookAppointment() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const initialType = searchParams.get('type') === 'online' ? 'online' : 'in-person';
-  
+
   const [step, setStep] = useState<Step>('type');
   const [appointmentType, setAppointmentType] = useState<'in-person' | 'online'>(initialType);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState<FilterOptions>({});
   const [selectedDoctor, setSelectedDoctor] = useState<typeof doctors[0] | null>(null);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [symptoms, setSymptoms] = useState('');
   const [isBooking, setIsBooking] = useState(false);
+
+  // Filter doctors
+  const filteredDoctors = doctors.filter(doctor => {
+    const matchesSearch = doctor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      doctor.specialization.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSpecialization = !filters.category || doctor.specialization === filters.category;
+
+    // Experience filter
+    let matchesExperience = true;
+    if (filters.priceRange) {
+      const [min, max] = filters.priceRange.split('-').map(s => parseInt(s.replace('+', '')) || Infinity);
+      matchesExperience = doctor.experience >= min && (max === Infinity || doctor.experience <= max);
+    }
+
+    // Fee filter  
+    let matchesFee = true;
+    if (filters.sortBy === 'fee-low' || filters.sortBy === 'fee-high') {
+      // Handled in sorting
+      matchesFee = true;
+    }
+
+    return matchesSearch && matchesSpecialization && matchesExperience;
+  }).sort((a, b) => {
+    if (filters.sortBy === 'fee-low') return a.fee - b.fee;
+    if (filters.sortBy === 'fee-high') return b.fee - a.fee;
+    if (filters.sortBy === 'rating') return b.rating - a.rating;
+    return 0;
+  });
 
   const handleNext = () => {
     if (step === 'type') setStep('doctor');
@@ -100,9 +133,9 @@ export default function BookAppointment() {
 
   return (
     <div className="min-h-screen pb-6">
-      <PageHeader 
-        title="Book Appointment" 
-        showBack 
+      <PageHeader
+        title="Book Appointment"
+        showBack
         backPath="/patient"
       />
 
@@ -137,13 +170,13 @@ export default function BookAppointment() {
         {step === 'type' && (
           <div className="space-y-4 animate-fade-in">
             <h2 className="font-heading font-semibold">Select consultation type</h2>
-            
+
             <button
               onClick={() => setAppointmentType('in-person')}
               className={cn(
                 'w-full p-4 rounded-xl border-2 transition-all text-left',
-                appointmentType === 'in-person' 
-                  ? 'border-primary bg-primary/5' 
+                appointmentType === 'in-person'
+                  ? 'border-primary bg-primary/5'
                   : 'border-border hover:border-primary/50'
               )}
             >
@@ -167,8 +200,8 @@ export default function BookAppointment() {
               onClick={() => setAppointmentType('online')}
               className={cn(
                 'w-full p-4 rounded-xl border-2 transition-all text-left',
-                appointmentType === 'online' 
-                  ? 'border-info bg-info/5' 
+                appointmentType === 'online'
+                  ? 'border-info bg-info/5'
                   : 'border-border hover:border-info/50'
               )}
             >
@@ -203,10 +236,28 @@ export default function BookAppointment() {
                 ← Back
               </Button>
             </div>
-            
+
+            {/* Search & Filter */}
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search doctors, specialization..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 h-10"
+                />
+              </div>
+              <FilterSheet
+                filters={filters}
+                onFiltersChange={setFilters}
+                type="doctor"
+              />
+            </div>
+
             <div className="space-y-3">
-              {doctors.map((doctor) => (
-                <Card 
+              {filteredDoctors.map((doctor) => (
+                <Card
                   key={doctor.id}
                   className={cn(
                     'shadow-card cursor-pointer transition-all',
@@ -242,8 +293,8 @@ export default function BookAppointment() {
               ))}
             </div>
 
-            <Button 
-              onClick={handleNext} 
+            <Button
+              onClick={handleNext}
               className="w-full mt-4"
               disabled={!selectedDoctor}
             >
@@ -307,8 +358,8 @@ export default function BookAppointment() {
               />
             </div>
 
-            <Button 
-              onClick={handleNext} 
+            <Button
+              onClick={handleNext}
               className="w-full"
               disabled={!selectedTime}
             >
@@ -355,11 +406,11 @@ export default function BookAppointment() {
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Date</span>
                     <span className="text-sm font-medium">
-                      {selectedDate?.toLocaleDateString('en-IN', { 
-                        weekday: 'short', 
-                        day: 'numeric', 
-                        month: 'short', 
-                        year: 'numeric' 
+                      {selectedDate?.toLocaleDateString('en-IN', {
+                        weekday: 'short',
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
                       })}
                     </span>
                   </div>
@@ -393,8 +444,8 @@ export default function BookAppointment() {
               </CardContent>
             </Card>
 
-            <Button 
-              onClick={handleBooking} 
+            <Button
+              onClick={handleBooking}
               className="w-full h-12"
               disabled={isBooking}
             >

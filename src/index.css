@@ -4,46 +4,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* MedCare+ Healthcare Design System
-   Clean, professional, mobile-first healthcare application
-   Colors in HSL for consistency */
+/* Royal Pharmacy Healthcare Design System - Navy & White Edition
+   Professional, high-contrast, strictly no green */
 
 @layer base {
   :root {
-    /* Healthcare Teal - Primary brand color for trust */
-    --primary: 168 84% 32%;
+    /* Primary Brand - Deep Professional Blue */
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 100%;
     
-    /* Sage Green - Secondary for wellness */
-    --secondary: 150 30% 94%;
-    --secondary-foreground: 168 60% 25%;
+    /* Secondary - Soft Blue Tint */
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
     
-    /* Warm Coral - Accent for CTAs and alerts */
-    --accent: 12 76% 61%;
+    /* Accent - Clean White/Light Blue */
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
     
-    /* Clean backgrounds */
-    --background: 150 20% 98%;
-    --foreground: 220 25% 15%;
+    /* Backgrounds */
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
     
-    /* Cards with subtle warmth */
+    /* Cards */
     --card: 0 0% 100%;
-    --card-foreground: 220 25% 15%;
+    --card-foreground: 222 47% 11%;
     
     /* Popovers */
     --popover: 0 0% 100%;
-    --popover-foreground: 220 25% 15%;
+    --popover-foreground: 222 47% 11%;
     
     /* Muted elements */
-    --muted: 150 15% 94%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 215 16% 47%;
     
     /* Destructive actions */
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    /* Success states */
-    --success: 142 71% 45%;
+    /* Success states - Use vibrant Blue instead of Green */
+    --success: 199 89% 48%;
     --success-foreground: 0 0% 100%;
     
     /* Warning states */
@@ -51,80 +50,80 @@
     --warning-foreground: 0 0% 100%;
     
     /* Info states */
-    --info: 199 89% 48%;
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
     
     /* Borders and inputs */
-    --border: 150 15% 88%;
-    --input: 150 15% 88%;
-    --ring: 168 84% 32%;
+    --border: 214 32% 85%;
+    --input: 214 32% 85%;
+    --ring: 221 83% 53%;
     
-    --radius: 0.75rem;
+    --radius: 1rem;
     
-    /* Role-specific colors */
-    --role-patient: 168 84% 32%;
+    /* Role-specific colors (No Green) */
+    --role-patient: 221 83% 53%;
     --role-doctor: 245 58% 51%;
-    --role-pharmacy: 142 71% 45%;
-    --role-lab: 38 92% 50%;
-    --role-admin: 220 25% 25%;
+    --role-pharmacy: 217 91% 60%;
+    --role-lab: 199 89% 48%;
+    --role-admin: 222 47% 11%;
     
     /* Sidebar */
-    --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 25% 15%;
-    --sidebar-primary: 168 84% 32%;
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 150 30% 94%;
-    --sidebar-accent-foreground: 168 60% 25%;
-    --sidebar-border: 150 15% 88%;
-    --sidebar-ring: 168 84% 32%;
+    --sidebar-accent: 217 91% 60%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 222 47% 20%;
+    --sidebar-ring: 221 83% 53%;
   }
 
   .dark {
-    --primary: 168 70% 45%;
+    --primary: 217 91% 60%;
     --primary-foreground: 0 0% 100%;
     
-    --secondary: 168 30% 15%;
-    --secondary-foreground: 168 40% 80%;
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 210 40% 98%;
     
-    --accent: 12 70% 55%;
+    --accent: 221 83% 53%;
     --accent-foreground: 0 0% 100%;
     
-    --background: 220 25% 8%;
-    --foreground: 150 20% 95%;
+    --background: 222 47% 4%;
+    --foreground: 210 40% 98%;
     
-    --card: 220 25% 12%;
-    --card-foreground: 150 20% 95%;
+    --card: 222 47% 7%;
+    --card-foreground: 210 40% 98%;
     
-    --popover: 220 25% 12%;
-    --popover-foreground: 150 20% 95%;
+    --popover: 222 47% 7%;
+    --popover-foreground: 210 40% 98%;
     
-    --muted: 220 20% 18%;
-    --muted-foreground: 150 15% 60%;
+    --muted: 222 47% 15%;
+    --muted-foreground: 215 20% 65%;
     
     --destructive: 0 62% 45%;
     --destructive-foreground: 0 0% 100%;
     
-    --success: 142 60% 40%;
+    --success: 199 89% 48%;
     --success-foreground: 0 0% 100%;
     
     --warning: 38 80% 45%;
     --warning-foreground: 0 0% 100%;
     
-    --info: 199 75% 45%;
+    --info: 217 91% 60%;
     --info-foreground: 0 0% 100%;
     
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 168 70% 45%;
+    --border: 222 47% 15%;
+    --input: 222 47% 15%;
+    --ring: 221 83% 53%;
     
-    --sidebar-background: 220 25% 10%;
-    --sidebar-foreground: 150 20% 95%;
-    --sidebar-primary: 168 70% 45%;
+    --sidebar-background: 222 47% 4%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 18%;
-    --sidebar-accent-foreground: 150 20% 95%;
-    --sidebar-border: 220 20% 20%;
-    --sidebar-ring: 168 70% 45%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 47% 15%;
+    --sidebar-ring: 221 83% 53%;
   }
 }
 
@@ -149,19 +148,17 @@
 }
 
 @layer utilities {
-  /* Mobile-first container */
   .mobile-container {
     @apply max-w-md mx-auto px-4;
   }
   
-  /* Glass morphism effect */
   .glass {
     @apply bg-white/80 backdrop-blur-lg;
   }
   
-  /* Gradient backgrounds for roles */
+  /* Blue Gradients Overhaul (No Green) */
   .gradient-patient {
-    background: linear-gradient(135deg, hsl(168 84% 32%) 0%, hsl(168 70% 40%) 100%);
+    background: linear-gradient(135deg, hsl(221 83% 53%) 0%, hsl(221 70% 40%) 100%);
   }
   
   .gradient-doctor {
@@ -169,18 +166,17 @@
   }
   
   .gradient-pharmacy {
-    background: linear-gradient(135deg, hsl(142 71% 45%) 0%, hsl(142 60% 50%) 100%);
+    background: linear-gradient(135deg, hsl(217 91% 60%) 0%, hsl(221 83% 53%) 100%);
   }
   
   .gradient-lab {
-    background: linear-gradient(135deg, hsl(38 92% 50%) 0%, hsl(38 80% 55%) 100%);
+    background: linear-gradient(135deg, hsl(199 89% 48%) 0%, hsl(210 80% 40%) 100%);
   }
   
   .gradient-admin {
-    background: linear-gradient(135deg, hsl(220 25% 25%) 0%, hsl(220 20% 35%) 100%);
+    background: linear-gradient(135deg, hsl(222 47% 11%) 0%, hsl(222 30% 25%) 100%);
   }
   
-  /* Card shadows */
   .card-shadow {
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
   }
@@ -189,20 +185,19 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
   }
   
-  /* Status badges */
+  /* Status badges (Blue-based positive states) */
   .status-pending {
     @apply bg-warning/10 text-warning;
   }
   
   .status-confirmed {
-    @apply bg-success/10 text-success;
+    @apply bg-info/10 text-info;
   }
   
   .status-cancelled {
     @apply bg-destructive/10 text-destructive;
   }
   
-  /* Safe area padding for mobile */
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom, 1rem);
   }
@@ -210,10 +205,14 @@
   .safe-top {
     padding-top: env(safe-area-inset-top, 0);
   }
+
+  /* Base container padding for desktop and mobile */
+  .container-padding {
+    @apply px-4 md:px-8 lg:px-12;
+  }
 }
 
 @layer components {
-  /* Role-specific button variants */
   .btn-role-patient {
     @apply bg-primary text-primary-foreground hover:bg-primary/90;
   }
@@ -224,26 +223,24 @@
   }
   
   .btn-role-pharmacy {
-    background: hsl(142 71% 45%);
+    background: hsl(217 91% 60%);
     @apply text-white hover:opacity-90;
   }
   
   .btn-role-lab {
-    background: hsl(38 92% 50%);
+    background: hsl(199 89% 48%);
     @apply text-white hover:opacity-90;
   }
   
   .btn-role-admin {
-    background: hsl(220 25% 25%);
+    background: hsl(222 47% 11%);
     @apply text-white hover:opacity-90;
   }
   
-  /* Quick action cards */
   .quick-action {
     @apply flex flex-col items-center justify-center p-4 rounded-xl bg-card card-shadow border border-border/50 transition-all duration-200 hover:card-shadow-lg hover:scale-[1.02] active:scale-[0.98];
   }
   
-  /* Bottom navigation */
   .bottom-nav {
     @apply fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-lg border-t border-border safe-bottom;
   }
@@ -256,7 +253,6 @@
     @apply text-primary;
   }
   
-  /* Healthcare stat cards */
   .stat-card {
     @apply relative overflow-hidden rounded-xl p-4 text-white;
   }

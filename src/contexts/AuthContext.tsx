@@ -4,9 +4,12 @@ import { User, UserRole } from '@/types';
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  login: (phone: string, otp: string, role: UserRole) => Promise<boolean>;
+  login: (phone: string, otp: string, role: UserRole) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   setUserRole: (role: UserRole) => void;
+  isUserAuthorized: (phone: string) => boolean;
+  toggleAuthorization: (phone: string) => void;
+  authorizedPhones: string[];
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -73,17 +76,34 @@ const demoUsers: Record<UserRole, User> = {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [authorizedPhones, setAuthorizedPhones] = useState<string[]>([
+    '9876543210', // Ramesh (Patient)
+    '9876543211', // Dr. Priya
+    '9876543217', // Admin
+  ]);
 
-  const login = async (phone: string, otp: string, role: UserRole): Promise<boolean> => {
+  const isUserAuthorized = (phone: string) => authorizedPhones.includes(phone);
+
+  const toggleAuthorization = (phone: string) => {
+    setAuthorizedPhones(prev =>
+      prev.includes(phone) ? prev.filter(p => p !== phone) : [...prev, phone]
+    );
+  };
+
+  const login = async (phone: string, otp: string, role: UserRole): Promise<{ success: boolean; message?: string }> => {
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // For demo, accept any 6-digit OTP
-    if (otp.length === 6) {
-      setUser(demoUsers[role]);
-      return true;
+
+    if (!isUserAuthorized(phone)) {
+      return { success: false, message: 'Your account is not authorized by the administrator.' };
     }
-    return false;
+
+    // For demo, accept any 6-digit OTP
+    if (otp.length === 6 || otp === '123456') {
+      setUser(demoUsers[role]);
+      return { success: true };
+    }
+    return { success: false, message: 'Invalid OTP. Please try again.' };
   };
 
   const logout = () => {
@@ -95,12 +115,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      isAuthenticated: !!user, 
-      login, 
+    <AuthContext.Provider value={{
+      user,
+      isAuthenticated: !!user,
+      login,
       logout,
-      setUserRole 
+      setUserRole,
+      isUserAuthorized,
+      toggleAuthorization,
+      authorizedPhones
     }}>
       {children}
     </AuthContext.Provider>

@@ -3,13 +3,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { 
-  User, 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Calendar, 
-  Heart, 
+import {
+  User,
+  Phone,
+  Mail,
+  MapPin,
+  Calendar,
+  Heart,
   ChevronRight,
   LogOut,
   FileText,
@@ -23,7 +23,7 @@ export default function PatientProfile() {
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/login');
   };
 
   const profileItems = [
@@ -36,7 +36,7 @@ export default function PatientProfile() {
   return (
     <div className="min-h-screen">
       <PageHeader title="Profile" />
-      
+
       <div className="p-4 space-y-4">
         {/* Profile Card */}
         <Card className="shadow-card-lg overflow-hidden">
@@ -82,9 +82,8 @@ export default function PatientProfile() {
             {profileItems.map((item, index) => (
               <button
                 key={item.label}
-                className={`w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors ${
-                  index !== profileItems.length - 1 ? 'border-b border-border' : ''
-                }`}
+                className={`w-full flex items-center justify-between p-4 hover:bg-muted/50 transition-colors ${index !== profileItems.length - 1 ? 'border-b border-border' : ''
+                  }`}
                 onClick={() => item.href !== '#' && navigate(item.href)}
               >
                 <div className="flex items-center gap-3">
@@ -98,8 +97,8 @@ export default function PatientProfile() {
         </Card>
 
         {/* Logout Button */}
-        <Button 
-          variant="outline" 
+        <Button
+          variant="outline"
           className="w-full text-destructive hover:text-destructive hover:bg-destructive/10"
           onClick={handleLogout}
         >

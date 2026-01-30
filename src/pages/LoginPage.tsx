@@ -1,23 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserRole } from '@/types';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { 
-  User, 
-  Stethoscope, 
-  Building2, 
-  Pill, 
-  FlaskConical, 
-  Activity, 
+import {
+  User,
+  Stethoscope,
+  Building2,
+  Pill,
+  FlaskConical,
+  Activity,
   Heart,
   Shield,
   Phone,
-  Lock
+  Lock,
+  Timer,
+  RefreshCcw
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 interface RoleOption {
   role: UserRole;
@@ -28,58 +36,58 @@ interface RoleOption {
 }
 
 const roleOptions: RoleOption[] = [
-  { 
-    role: 'patient', 
-    label: 'Patient', 
+  {
+    role: 'patient',
+    label: 'Patient',
     icon: <User className="h-6 w-6" />,
     description: 'Book appointments & order medicines',
     color: 'gradient-patient'
   },
-  { 
-    role: 'doctor', 
-    label: 'Doctor', 
+  {
+    role: 'doctor',
+    label: 'Doctor',
     icon: <Stethoscope className="h-6 w-6" />,
     description: 'Manage consultations & prescriptions',
     color: 'gradient-doctor'
   },
-  { 
-    role: 'clinic_staff', 
-    label: 'Clinic Staff', 
+  {
+    role: 'clinic_staff',
+    label: 'Clinic Staff',
     icon: <Building2 className="h-6 w-6" />,
     description: 'Manage appointments & patients',
     color: 'bg-secondary'
   },
-  { 
-    role: 'pharmacy_staff', 
-    label: 'Pharmacy', 
+  {
+    role: 'pharmacy_staff',
+    label: 'Pharmacy',
     icon: <Pill className="h-6 w-6" />,
     description: 'Inventory & order management',
     color: 'gradient-pharmacy'
   },
-  { 
-    role: 'lab_staff', 
-    label: 'Lab Staff', 
+  {
+    role: 'lab_staff',
+    label: 'Lab Staff',
     icon: <FlaskConical className="h-6 w-6" />,
     description: 'Manage tests & reports',
     color: 'gradient-lab'
   },
-  { 
-    role: 'physiotherapist', 
-    label: 'Physiotherapy', 
+  {
+    role: 'physiotherapist',
+    label: 'Physiotherapy',
     icon: <Activity className="h-6 w-6" />,
     description: 'Manage therapy sessions',
     color: 'bg-secondary'
   },
-  { 
-    role: 'nurse', 
-    label: 'Nursing', 
+  {
+    role: 'nurse',
+    label: 'Nursing',
     icon: <Heart className="h-6 w-6" />,
     description: 'Home care services',
     color: 'bg-secondary'
   },
-  { 
-    role: 'admin', 
-    label: 'Admin', 
+  {
+    role: 'admin',
+    label: 'Admin',
     icon: <Shield className="h-6 w-6" />,
     description: 'Full system management',
     color: 'gradient-admin'
@@ -92,42 +100,92 @@ export default function LoginPage() {
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [resendTimer, setResendTimer] = useState(30);
+  const [canResend, setCanResend] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleRoleSelect = (role: UserRole) => {
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (step === 'otp' && resendTimer > 0) {
+      interval = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (resendTimer === 0) {
+      setCanResend(true);
+    }
+    return () => clearInterval(interval);
+  }, [step, resendTimer]);
+
+  const handleRoleSelect = async (role: UserRole) => {
     setSelectedRole(role);
-    setStep('phone');
+    setIsLoading(true);
+
+    try {
+      // Use Ramesh's phone (authorized) for quick login during demo
+      const response = await login('9876543210', '123456', role);
+      setIsLoading(false);
+
+      if (response.success) {
+        const roleRoutes: Record<UserRole, string> = {
+          patient: '/patient',
+          doctor: '/doctor',
+          clinic_staff: '/clinic',
+          pharmacy_staff: '/pharmacy',
+          lab_staff: '/lab',
+          physiotherapist: '/services',
+          nurse: '/services',
+          admin: '/admin',
+        };
+        navigate(roleRoutes[role]);
+      } else {
+        setStep('phone');
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setStep('phone');
+    }
   };
 
   const handlePhoneSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (phone.length === 10) {
       setStep('otp');
+      setResendTimer(30);
+      setCanResend(false);
     }
+  };
+
+  const handleResendOtp = () => {
+    if (!canResend) return;
+    setResendTimer(30);
+    setCanResend(false);
+    setOtp('');
   };
 
   const handleOtpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedRole) return;
-    
+
     setIsLoading(true);
-    const success = await login(phone, otp, selectedRole);
+    const response = await login(phone, otp, selectedRole);
     setIsLoading(false);
-    
-    if (success) {
-      // Navigate based on role
+
+    if (response.success) {
       const roleRoutes: Record<UserRole, string> = {
         patient: '/patient',
         doctor: '/doctor',
         clinic_staff: '/clinic',
         pharmacy_staff: '/pharmacy',
         lab_staff: '/lab',
-        physiotherapist: '/services',
-        nurse: '/services',
+        physiotherapist: '/services/physio',
+        nurse: '/services/nurse',
         admin: '/admin',
       };
       navigate(roleRoutes[selectedRole]);
+    } else {
+      // Show error toast - we'll need to import toast if not available
+      alert(response.message || 'Login failed');
     }
   };
 
@@ -141,7 +199,7 @@ export default function LoginPage() {
               <Heart className="h-7 w-7 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-heading font-bold text-primary-foreground">MedCare+</h1>
+              <h1 className="text-xl font-heading font-bold text-primary-foreground">Royal Pharmacy</h1>
               <p className="text-xs text-primary-foreground/80">Trichy Healthcare</p>
             </div>
           </div>
@@ -185,7 +243,7 @@ export default function LoginPage() {
           {step === 'phone' && (
             <Card className="animate-fade-in border-0 shadow-none">
               <CardHeader className="px-0">
-                <button 
+                <button
                   onClick={() => setStep('role')}
                   className="text-sm text-primary mb-2 flex items-center gap-1"
                 >
@@ -207,8 +265,8 @@ export default function LoginPage() {
                       autoFocus
                     />
                   </div>
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full h-12 text-base font-medium"
                     disabled={phone.length !== 10}
                   >
@@ -222,7 +280,7 @@ export default function LoginPage() {
           {step === 'otp' && (
             <Card className="animate-fade-in border-0 shadow-none">
               <CardHeader className="px-0">
-                <button 
+                <button
                   onClick={() => setStep('phone')}
                   className="text-sm text-primary mb-2 flex items-center gap-1"
                 >
@@ -232,34 +290,62 @@ export default function LoginPage() {
                 <CardDescription>Sent to +91 {phone}</CardDescription>
               </CardHeader>
               <CardContent className="px-0">
-                <form onSubmit={handleOtpSubmit} className="space-y-4">
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                    <Input
-                      type="text"
-                      placeholder="6-digit OTP"
+                <form onSubmit={handleOtpSubmit} className="space-y-6">
+                  <div className="flex flex-col items-center gap-4">
+                    <InputOTP
+                      maxLength={6}
                       value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                      className="pl-10 h-12 text-lg tracking-widest"
+                      onChange={(value) => setOtp(value)}
                       autoFocus
-                    />
+                    >
+                      <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                      </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup>
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      {resendTimer > 0 ? (
+                        <>
+                          <Timer className="h-4 w-4" />
+                          <span>Resend in {resendTimer}s</span>
+                        </>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={handleResendOtp}
+                          className="text-primary font-medium flex items-center gap-1 hover:underline"
+                        >
+                          <RefreshCcw className="h-4 w-4" />
+                          Resend OTP
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <Button 
-                    type="submit" 
+
+                  <Button
+                    type="submit"
                     className="w-full h-12 text-base font-medium"
                     disabled={otp.length !== 6 || isLoading}
                   >
                     {isLoading ? 'Verifying...' : 'Verify & Login'}
                   </Button>
-                  <p className="text-center text-sm text-muted-foreground">
-                    Didn't receive OTP? <button type="button" className="text-primary font-medium">Resend</button>
-                  </p>
                 </form>
-                
+
                 {/* Demo hint */}
-                <div className="mt-6 p-3 bg-secondary rounded-lg">
-                  <p className="text-xs text-secondary-foreground">
-                    <strong>Demo:</strong> Enter any 6 digits to login as {selectedRole?.replace('_', ' ')}
+                <div className="mt-8 p-4 bg-secondary/50 rounded-xl border border-secondary">
+                  <p className="text-xs text-secondary-foreground leading-relaxed">
+                    <span className="font-bold">Demo Mode:</span> Enter any 6 digits to log in as
+                    <span className="font-semibold text-primary ml-1">
+                      {selectedRole?.replace('_', ' ').toUpperCase()}
+                    </span>
                   </p>
                 </div>
               </CardContent>

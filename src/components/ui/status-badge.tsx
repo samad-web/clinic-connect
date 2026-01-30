@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-type StatusType = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'processing' | 'ready' | 'delivered';
+type StatusType = 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'processing' | 'ready' | 'delivered' | 'active' | 'low_stock' | 'out_of_stock';
 
 interface StatusBadgeProps {
   status: StatusType;
@@ -35,6 +35,18 @@ const statusConfig: Record<StatusType, { label: string; className: string }> = {
   delivered: {
     label: 'Delivered',
     className: 'bg-success/15 text-success border-success/30',
+  },
+  active: {
+    label: 'Active',
+    className: 'bg-success/15 text-success border-success/30',
+  },
+  low_stock: {
+    label: 'Low Stock',
+    className: 'bg-warning/15 text-warning border-warning/30',
+  },
+  out_of_stock: {
+    label: 'Out of Stock',
+    className: 'bg-destructive/15 text-destructive border-destructive/30',
   },
 };
 

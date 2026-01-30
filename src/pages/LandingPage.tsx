@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { 
-  Heart, 
-  Calendar, 
-  Pill, 
-  FlaskConical, 
-  Shield, 
-  Clock, 
+import {
+  Heart,
+  Calendar,
+  Pill,
+  FlaskConical,
+  Shield,
+  Clock,
   Users,
   Smartphone,
   CheckCircle2,
@@ -68,7 +68,7 @@ export default function LandingPage() {
               <Heart className="h-5 w-5 text-primary-foreground" />
             </div>
             <div>
-              <span className="font-heading font-bold text-lg text-foreground">MedCare+</span>
+              <span className="font-heading font-bold text-lg text-foreground">Royal Pharmacy</span>
               <span className="hidden sm:inline text-xs text-muted-foreground ml-2">Trichy Healthcare</span>
             </div>
           </div>
@@ -87,18 +87,18 @@ export default function LandingPage() {
               <MapPin className="h-4 w-4" />
               Serving Trichy with {locations.join(' • ')}
             </div>
-            
+
             <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-6">
               Your Complete Healthcare Companion
             </h1>
-            
+
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto">
               Book appointments, order medicines, schedule lab tests, and access your medical records — all in one simple app.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
+              <Button
+                size="lg"
                 onClick={handleCTA}
                 className="h-14 px-8 text-base font-semibold shadow-lg hover:shadow-xl transition-shadow"
               >
@@ -161,8 +161,8 @@ export default function LandingPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {benefits.map((benefit, index) => (
-                <div 
-                  key={index} 
+                <div
+                  key={index}
                   className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 border border-border/50"
                 >
                   <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
@@ -183,10 +183,10 @@ export default function LandingPage() {
             Ready to Get Started?
           </h2>
           <p className="text-primary-foreground/80 text-lg mb-8 max-w-xl mx-auto">
-            Join thousands of patients and healthcare providers in Trichy who trust MedCare+ for their daily healthcare needs.
+            Join thousands of patients and healthcare providers in Trichy who trust Royal Pharmacy for their daily healthcare needs.
           </p>
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             variant="secondary"
             onClick={handleCTA}
             className="h-14 px-8 text-base font-semibold"
@@ -203,10 +203,10 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2">
               <Heart className="h-5 w-5 text-primary" />
-              <span className="font-heading font-semibold text-foreground">MedCare+</span>
+              <span className="font-heading font-semibold text-foreground">Royal Pharmacy</span>
             </div>
             <p className="text-sm text-muted-foreground text-center">
-              © 2026 MedCare+ Trichy. Serving our community with care.
+              © 2026 Royal Pharmacy Trichy. Serving our community with care.
             </p>
           </div>
         </div>

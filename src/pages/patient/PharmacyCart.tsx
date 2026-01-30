@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { 
-  Pill, 
-  Plus, 
-  Minus, 
-  Trash2, 
-  Truck, 
-  MapPin, 
+import {
+  Pill,
+  Plus,
+  Minus,
+  Trash2,
+  Truck,
+  MapPin,
   Receipt,
   Check,
   Download
@@ -61,12 +61,12 @@ export default function PharmacyCart() {
 
   // GST Calculations
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  
+
   const gstBreakdown = cartItems.reduce((acc, item) => {
     const itemTotal = item.price * item.quantity;
     const gstAmount = (itemTotal * item.gstRate) / 100;
     const rate = item.gstRate;
-    
+
     if (acc[rate]) {
       acc[rate] += gstAmount;
     } else {
@@ -91,7 +91,7 @@ export default function PharmacyCart() {
     return (
       <div className="min-h-screen pb-6">
         <PageHeader title="Order Placed" />
-        
+
         <div className="px-4 py-8 text-center">
           <div className="h-20 w-20 rounded-full bg-success/10 flex items-center justify-center mx-auto mb-4">
             <Check className="h-10 w-10 text-success" />
@@ -129,7 +129,7 @@ export default function PharmacyCart() {
                 {Object.entries(gstBreakdown).map(([rate, amount]) => (
                   <div key={rate} className="flex justify-between">
                     <span className="text-muted-foreground">
-                      GST @ {rate}% (CGST {Number(rate)/2}% + SGST {Number(rate)/2}%)
+                      GST @ {rate}% (CGST {Number(rate) / 2}% + SGST {Number(rate) / 2}%)
                     </span>
                     <span>₹{amount.toFixed(2)}</span>
                   </div>
@@ -149,7 +149,7 @@ export default function PharmacyCart() {
               <div className="mt-4 pt-4 border-t border-border">
                 <p className="text-xs text-muted-foreground">
                   <strong>GSTIN:</strong> 33AABCU9603R1ZM<br />
-                  MedCare+ Pharmacy, Trichy, Tamil Nadu
+                  Royal Pharmacy, Trichy, Tamil Nadu
                 </p>
               </div>
             </CardContent>
@@ -172,7 +172,7 @@ export default function PharmacyCart() {
   return (
     <div className="min-h-screen pb-6">
       <PageHeader title="Cart" showBack backPath="/patient/pharmacy" />
-      
+
       <div className="px-4 space-y-4">
         {cartItems.length === 0 ? (
           <div className="text-center py-12">
@@ -207,18 +207,18 @@ export default function PharmacyCart() {
                         </p>
                       </div>
                       <div className="flex flex-col items-end gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
+                        <Button
+                          variant="ghost"
+                          size="icon"
                           className="h-6 w-6 text-destructive"
                           onClick={() => removeItem(item.id)}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
                         <div className="flex items-center gap-1">
-                          <Button 
-                            variant="outline" 
-                            size="icon" 
+                          <Button
+                            variant="outline"
+                            size="icon"
                             className="h-7 w-7"
                             onClick={() => updateQuantity(item.id, -1)}
                           >
@@ -227,8 +227,8 @@ export default function PharmacyCart() {
                           <span className="text-sm font-medium w-6 text-center">
                             {item.quantity}
                           </span>
-                          <Button 
-                            size="icon" 
+                          <Button
+                            size="icon"
                             className="h-7 w-7"
                             onClick={() => updateQuantity(item.id, 1)}
                           >
@@ -293,22 +293,22 @@ export default function PharmacyCart() {
                   <Receipt className="h-4 w-4" />
                   Bill Summary
                 </h3>
-                
+
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Subtotal ({cartItems.length} items)</span>
                     <span>₹{subtotal.toFixed(2)}</span>
                   </div>
-                  
+
                   {Object.entries(gstBreakdown).map(([rate, amount]) => (
                     <div key={rate} className="flex justify-between text-xs">
                       <span className="text-muted-foreground">
-                        GST @ {rate}% (CGST {Number(rate)/2}% + SGST {Number(rate)/2}%)
+                        GST @ {rate}% (CGST {Number(rate) / 2}% + SGST {Number(rate) / 2}%)
                       </span>
                       <span>₹{amount.toFixed(2)}</span>
                     </div>
                   ))}
-                  
+
                   {deliveryCharge > 0 && (
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Delivery Charge</span>
@@ -320,7 +320,7 @@ export default function PharmacyCart() {
                     <span>Grand Total</span>
                     <span className="text-lg">₹{grandTotal.toFixed(2)}</span>
                   </div>
-                  
+
                   <p className="text-xs text-muted-foreground pt-2">
                     (Inclusive of all taxes)
                   </p>
@@ -329,8 +329,8 @@ export default function PharmacyCart() {
             </Card>
 
             {/* Place Order Button */}
-            <Button 
-              className="w-full h-12" 
+            <Button
+              className="w-full h-12"
               onClick={handlePlaceOrder}
               disabled={isOrdering || (deliveryType === 'delivery' && !address)}
             >
