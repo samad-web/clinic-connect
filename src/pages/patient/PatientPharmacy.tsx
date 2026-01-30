@@ -184,7 +184,7 @@ export default function PatientPharmacy() {
                   <p className="text-sm font-medium">{cartCount} items</p>
                   <p className="text-xs opacity-80">₹{cartTotal} + GST</p>
                 </div>
-                <Button variant="secondary" size="sm">
+                <Button variant="secondary" size="sm" onClick={() => window.location.href = '/patient/pharmacy/cart'}>
                   View Cart →
                 </Button>
               </CardContent>
