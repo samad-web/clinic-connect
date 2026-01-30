@@ -1,6 +1,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import { QuickAction } from '@/components/ui/quick-action';
 import { StatusBadge } from '@/components/ui/status-badge';
+import { OfflineBadge } from '@/components/OfflineIndicator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
@@ -70,6 +71,9 @@ export default function PatientDashboard() {
             <h1 className="text-xl font-heading font-bold text-primary-foreground">
               {user?.name || 'Patient'}
             </h1>
+            <div className="mt-1">
+              <OfflineBadge />
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Button 
@@ -79,7 +83,7 @@ export default function PatientDashboard() {
             >
               <Bell className="h-5 w-5" />
             </Button>
-            <Button 
+            <Button
               variant="ghost" 
               size="sm"
               onClick={logout}
@@ -114,7 +118,7 @@ export default function PatientDashboard() {
                 variant="success"
                 onClick={() => navigate('/patient/pharmacy')}
               />
-              <QuickAction 
+              <QuickAction
                 icon={<FlaskConical className="h-5 w-5" />}
                 label="Lab Test"
                 variant="warning"
