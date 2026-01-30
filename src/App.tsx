@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { OfflineIndicator } from "@/components/OfflineIndicator";
 import { useEffect } from "react";
+import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import PatientLayout from "./layouts/PatientLayout";
 import PatientDashboard from "./pages/patient/PatientDashboard";
@@ -57,7 +58,8 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<LoginPage />} />
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/login" element={<LoginPage />} />
               
               {/* Patient Routes */}
               <Route path="/patient" element={<PatientLayout />}>
