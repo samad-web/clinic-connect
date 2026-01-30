@@ -1,6 +1,6 @@
 {
-  "name": "MedCare+ Healthcare",
-  "short_name": "MedCare+",
+  "name": "Royal Pharmacy Healthcare",
+  "short_name": "Royal Pharmacy",
   "description": "Complete healthcare companion for clinic visits, pharmacy orders, lab tests & more",
   "start_url": "/",
   "display": "standalone",
@@ -57,7 +57,11 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["health", "medical", "lifestyle"],
+  "categories": [
+    "health",
+    "medical",
+    "lifestyle"
+  ],
   "screenshots": [],
   "shortcuts": [
     {

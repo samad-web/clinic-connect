@@ -120,8 +120,10 @@ const App = () => {
               {/* Admin Routes */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboard />} />
-                <Route path="users" element={<UserManagement />} />
+                <Route path="staff" element={<UserManagement />} />
                 <Route path="branches" element={<BranchManagement />} />
+                <Route path="reports" element={<Reports />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
 
               {/* Lab Routes */}

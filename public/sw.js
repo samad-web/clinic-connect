@@ -1,4 +1,4 @@
-const CACHE_NAME = 'medcare-v1';
+const CACHE_NAME = 'royal-pharmacy-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -36,9 +36,9 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
   // Skip API calls - let them go to network
-  if (event.request.url.includes('/api/') || 
-      event.request.url.includes('supabase') ||
-      event.request.url.includes('/functions/')) {
+  if (event.request.url.includes('/api/') ||
+    event.request.url.includes('supabase') ||
+    event.request.url.includes('/functions/')) {
     return;
   }
 
@@ -54,7 +54,7 @@ self.addEventListener('fetch', (event) => {
                 cache.put(event.request, response);
               });
             }
-          }).catch(() => {})
+          }).catch(() => { })
         );
         return cachedResponse;
       }

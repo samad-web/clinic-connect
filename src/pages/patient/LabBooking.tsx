@@ -4,10 +4,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Calendar } from '@/components/ui/calendar';
-import { 
-  FlaskConical, 
-  Home, 
-  Building2, 
+import {
+  FlaskConical,
+  Home,
+  Building2,
   Search,
   Clock,
   Check,
@@ -32,7 +32,7 @@ const labTests = [
 ];
 
 const timeSlots = [
-  '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', 
+  '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM',
   '11:00 AM', '04:00 PM', '05:00 PM', '06:00 PM',
 ];
 
@@ -86,9 +86,9 @@ export default function LabBooking() {
 
   return (
     <div className="min-h-screen pb-6">
-      <PageHeader 
-        title="Book Lab Test" 
-        showBack 
+      <PageHeader
+        title="Book Lab Test"
+        showBack
         backPath="/patient"
       />
 
@@ -112,7 +112,7 @@ export default function LabBooking() {
               <h3 className="font-medium text-sm text-muted-foreground mb-3">Popular Tests</h3>
               <div className="space-y-2">
                 {filteredTests.filter(t => t.popular).map((test) => (
-                  <Card 
+                  <Card
                     key={test.id}
                     className={cn(
                       'shadow-card cursor-pointer transition-all',
@@ -124,8 +124,8 @@ export default function LabBooking() {
                       <div className="flex items-center gap-3">
                         <div className={cn(
                           'h-5 w-5 rounded border-2 flex items-center justify-center',
-                          selectedTests.find(t => t.id === test.id) 
-                            ? 'bg-primary border-primary' 
+                          selectedTests.find(t => t.id === test.id)
+                            ? 'bg-primary border-primary'
                             : 'border-muted-foreground'
                         )}>
                           {selectedTests.find(t => t.id === test.id) && (
@@ -151,7 +151,7 @@ export default function LabBooking() {
               <h3 className="font-medium text-sm text-muted-foreground mb-3">All Tests</h3>
               <div className="space-y-2">
                 {filteredTests.filter(t => !t.popular).map((test) => (
-                  <Card 
+                  <Card
                     key={test.id}
                     className={cn(
                       'shadow-card cursor-pointer transition-all',
@@ -163,8 +163,8 @@ export default function LabBooking() {
                       <div className="flex items-center gap-3">
                         <div className={cn(
                           'h-5 w-5 rounded border-2 flex items-center justify-center',
-                          selectedTests.find(t => t.id === test.id) 
-                            ? 'bg-primary border-primary' 
+                          selectedTests.find(t => t.id === test.id)
+                            ? 'bg-primary border-primary'
                             : 'border-muted-foreground'
                         )}>
                           {selectedTests.find(t => t.id === test.id) && (
@@ -218,8 +218,8 @@ export default function LabBooking() {
               onClick={() => setVisitType('home')}
               className={cn(
                 'w-full p-4 rounded-xl border-2 transition-all text-left',
-                visitType === 'home' 
-                  ? 'border-primary bg-primary/5' 
+                visitType === 'home'
+                  ? 'border-primary bg-primary/5'
                   : 'border-border hover:border-primary/50'
               )}
             >
@@ -244,8 +244,8 @@ export default function LabBooking() {
               onClick={() => setVisitType('lab')}
               className={cn(
                 'w-full p-4 rounded-xl border-2 transition-all text-left',
-                visitType === 'lab' 
-                  ? 'border-warning bg-warning/5' 
+                visitType === 'lab'
+                  ? 'border-warning bg-warning/5'
                   : 'border-border hover:border-warning/50'
               )}
             >
@@ -256,7 +256,7 @@ export default function LabBooking() {
                 <div className="flex-1">
                   <h3 className="font-medium">Visit Lab</h3>
                   <p className="text-sm text-muted-foreground mt-0.5">
-                    Visit MedCare+ Lab, Trichy
+                    Visit Royal Pharmacy Lab, Trichy
                   </p>
                   <p className="text-xs text-success mt-1">No extra charges</p>
                 </div>
@@ -328,8 +328,8 @@ export default function LabBooking() {
               </div>
             </div>
 
-            <Button 
-              onClick={handleNext} 
+            <Button
+              onClick={handleNext}
               className="w-full"
               disabled={!selectedTime}
             >
@@ -381,9 +381,9 @@ export default function LabBooking() {
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Date</span>
                     <span className="text-sm font-medium">
-                      {selectedDate?.toLocaleDateString('en-IN', { 
-                        weekday: 'short', 
-                        day: 'numeric', 
+                      {selectedDate?.toLocaleDateString('en-IN', {
+                        weekday: 'short',
+                        day: 'numeric',
                         month: 'short'
                       })}
                     </span>
@@ -395,7 +395,7 @@ export default function LabBooking() {
                   {visitType === 'lab' && (
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Location</span>
-                      <span className="text-sm font-medium">MedCare+ Lab, Trichy</span>
+                      <span className="text-sm font-medium">Royal Pharmacy Lab, Trichy</span>
                     </div>
                   )}
                 </div>
@@ -420,8 +420,8 @@ export default function LabBooking() {
               </CardContent>
             </Card>
 
-            <Button 
-              onClick={handleBooking} 
+            <Button
+              onClick={handleBooking}
               className="w-full h-12"
               disabled={isBooking}
             >

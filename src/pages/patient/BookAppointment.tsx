@@ -421,7 +421,7 @@ export default function BookAppointment() {
                   {appointmentType === 'in-person' && (
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-muted-foreground">Location</span>
-                      <span className="text-sm font-medium">MedCare+ Clinic, Trichy</span>
+                      <span className="text-sm font-medium">Royal Pharmacy Clinic, Trichy</span>
                     </div>
                   )}
                 </div>

@@ -73,7 +73,7 @@ export default function LandingPage() {
             </div>
           </div>
           <Button onClick={handleCTA} size="sm">
-            Access Web Application
+            Start Web Application
           </Button>
         </div>
       </header>
@@ -93,7 +93,7 @@ export default function LandingPage() {
             </h1>
 
             <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-xl mx-auto">
-              Book appointments, order medicines, schedule lab tests, and access your medical records — all in one simple app.
+              Book appointments, order medicines, schedule lab tests, and access your medical records all in one simple app.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -102,13 +102,13 @@ export default function LandingPage() {
                 onClick={handleCTA}
                 className="h-14 px-8 text-base font-semibold shadow-lg hover:shadow-xl transition-shadow"
               >
-                Access Web Application
+                Start Web Application
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
             </div>
 
             <p className="mt-6 text-sm text-muted-foreground">
-              Free to use • No download required • Works on any device
+              • Works on any device •
             </p>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function LandingPage() {
               Everything You Need
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              One platform for all your healthcare needs — designed for simplicity and reliability.
+              One platform for all your healthcare needs designed for simplicity and reliability.
             </p>
           </div>
 
@@ -152,7 +152,7 @@ export default function LandingPage() {
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
               <h2 className="font-heading text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Why Choose MedCare+
+                Why Choose Royal Pharmacy
               </h2>
               <p className="text-muted-foreground text-lg">
                 Built for the healthcare needs of Trichy families.
@@ -191,7 +191,7 @@ export default function LandingPage() {
             onClick={handleCTA}
             className="h-14 px-8 text-base font-semibold"
           >
-            Access Web Application
+            Start Web Application
             <ArrowRight className="h-5 w-5 ml-2" />
           </Button>
         </div>

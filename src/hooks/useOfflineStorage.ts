@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const DB_NAME = 'medcare_offline_db';
+const DB_NAME = 'royalpharmacy_offline_db';
 const DB_VERSION = 1;
 
 interface OfflineData {
@@ -35,7 +35,7 @@ class OfflineDB {
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
-        
+
         // Create object stores
         if (!db.objectStoreNames.contains('appointments')) {
           db.createObjectStore('appointments', { keyPath: 'id' });
@@ -61,7 +61,7 @@ class OfflineDB {
 
   async getAll<T>(storeName: string): Promise<T[]> {
     if (!this.db) await this.init();
-    
+
     return new Promise((resolve, reject) => {
       const transaction = this.db!.transaction(storeName, 'readonly');
       const store = transaction.objectStore(storeName);
@@ -170,7 +170,7 @@ export function useOfflineStorage() {
   const saveOffline = useCallback(async (storeName: string, data: any) => {
     try {
       await offlineDB.put(storeName, { ...data, id: data.id || Date.now().toString() });
-      
+
       // If offline, add to pending sync queue
       if (!navigator.onLine) {
         await offlineDB.put('pendingSync', {
@@ -182,7 +182,7 @@ export function useOfflineStorage() {
         });
         setPendingSyncCount(prev => prev + 1);
       }
-      
+
       return true;
     } catch (error) {
       console.error('Error saving offline:', error);
@@ -205,13 +205,13 @@ export function useOfflineStorage() {
     setIsSyncing(true);
     try {
       const pendingItems = await offlineDB.getAll<any>('pendingSync');
-      
+
       for (const item of pendingItems) {
         // Here you would send to your backend API
         console.log('Syncing:', item);
         // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 500));
-        
+
         // Remove from pending sync after successful sync
         await offlineDB.delete('pendingSync', item.id);
       }
